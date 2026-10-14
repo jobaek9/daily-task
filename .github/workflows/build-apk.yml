@@ -1,0 +1,49 @@
+name: APK 만들기
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 화면 파일을 안드로이드 프로젝트로 복사
+        run: |
+          npm ci
+          npx cap sync android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: APK 빌드
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: 릴리스에 올리기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk daily-task.apk
+          TAG="v1.0.${{ github.run_number }}"
+          gh release create "$TAG" daily-task.apk \
+            --title "Daily Task $TAG" \
+            --notes "daily-task.apk를 받아서 설치. 새 버전은 지우지 말고 덮어 설치하면 진도가 그대로 남음." \
+            --latest

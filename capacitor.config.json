@@ -1,0 +1,8 @@
+{
+  "appId": "com.jobaek9.dailytask",
+  "appName": "Daily Task",
+  "webDir": "web",
+  "android": {
+    "backgroundColor": "#ffffff"
+  }
+}

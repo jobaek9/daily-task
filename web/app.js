@@ -327,7 +327,7 @@ function Reader({ subj, days, di, review, st, back, complete }) {
       </div>
     </div>
 
-    ${zoom ? html`<div class="fixed inset-0 z-50 bg-black flex flex-col">
+    ${zoom ? html`<div data-zoom class="fixed inset-0 z-50 bg-black flex flex-col">
       <div class="flex items-center justify-between px-4 py-2 text-white" style=${{ paddingTop: 'calc(env(safe-area-inset-top) + 8px)' }}>
         <span class="text-sm font-semibold">${zoom}쪽</span>
         <button onClick=${() => setZoom(null)} class="px-4 py-2 rounded-full bg-white/15 text-sm font-semibold">닫기</button>
@@ -345,6 +345,21 @@ function App() {
   const [toast, setToast] = useState(null);
   const [, tick] = useState(0);
   const stRef = useRef(st); stRef.current = st;
+  const navRef = useRef({}); navRef.current = { reader, tab };
+
+  // 안드로이드 뒤로가기: 읽기 화면 → 홈, 다른 탭 → 오늘, 오늘 → 앱 닫기
+  useEffect(() => {
+    const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+    if (!AppPlugin) return;
+    const h = AppPlugin.addListener('backButton', () => {
+      const n = navRef.current;
+      if (document.querySelector('[data-zoom]')) document.querySelector('[data-zoom] button').click();
+      else if (n.reader) { setReader(null); window.scrollTo(0, 0); }
+      else if (n.tab !== 'today') { setTab('today'); window.scrollTo(0, 0); }
+      else AppPlugin.exitApp();
+    });
+    return () => { Promise.resolve(h).then((x) => x && x.remove && x.remove()); };
+  }, []);
 
   useEffect(() => {
     const f = () => tick((n) => n + 1);
@@ -423,6 +438,6 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
 
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !window.claude) {
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !window.claude && !window.Capacitor) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
