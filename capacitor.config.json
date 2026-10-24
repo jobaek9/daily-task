@@ -1,6 +1,6 @@
 {
   "appId": "com.jobaek9.dailytask",
-  "appName": "Daily Task",
+  "appName": "교과서 보기",
   "webDir": "web",
   "android": {
     "backgroundColor": "#ffffff"

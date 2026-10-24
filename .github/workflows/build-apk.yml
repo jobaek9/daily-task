@@ -44,6 +44,6 @@ jobs:
           cp android/app/build/outputs/apk/release/app-release.apk daily-task.apk
           TAG="v1.0.${{ github.run_number }}"
           gh release create "$TAG" daily-task.apk \
-            --title "Daily Task $TAG" \
-            --notes "daily-task.apk를 받아서 설치. 새 버전은 지우지 말고 덮어 설치하면 진도가 그대로 남음." \
+            --title "교과서 보기 $TAG" \
+            --notes "daily-task.apk를 받아서 설치. 새 버전은 지우지 말고 덮어 설치하면 봄 표시가 그대로 남음." \
             --latest

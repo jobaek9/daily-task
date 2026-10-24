@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Daily Task</string>
-    <string name="title_activity_main">Daily Task</string>
+    <string name="app_name">교과서 보기</string>
+    <string name="title_activity_main">교과서 보기</string>
     <string name="package_name">com.jobaek9.dailytask</string>
     <string name="custom_url_scheme">com.jobaek9.dailytask</string>
 </resources>

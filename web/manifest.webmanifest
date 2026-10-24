@@ -1,7 +1,7 @@
 {
-  "name": "Daily Task",
-  "short_name": "Daily Task",
-  "description": "과목별 하루 분량을 정해 매일 끝내는 앱",
+  "name": "교과서 보기",
+  "short_name": "교과서 보기",
+  "description": "교과서 페이지를 보고 본 쪽을 표시하는 앱",
   "lang": "ko",
   "start_url": "./",
   "scope": "./",

@@ -1,14 +1,11 @@
 /* 과목 목록 — 과목을 추가하려면 이 배열에 하나 더 넣으면 됨
-   items 하나 = 하루 분량을 이루는 한 덩어리(소주제, 지문 등)
-   pages: 이미지 쪽 번호들 (img 함수로 경로를 만듦) / 같은 g(그룹) 안에서만 하루 묶음을 만듦 */
+   items 하나 = 소주제 하나, pages = 그 소주제의 쪽 번호들, g = 묶음(단원) 이름 */
 const R = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 const SUBJECTS = [
   {
     id: 'history',
     name: '한국사',
     desc: '교과서 76~151쪽',
-    unit: '소주제',
-    perDay: 2,
     note: '124~127쪽은 원본 파일에 없어서 빠져 있어요.',
     img: (p) => 'p/' + String(p).padStart(3, '0') + '.jpg',
     items: [
